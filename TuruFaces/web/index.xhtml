@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+    <h:head>
+        <title>#{bundle.titleLogin}</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+    </h:head>
+    <h:body>
+        <center>
+            <pm:content styleClass="jqm-content">
+                <p:panel  header="#{bundle.panelLogin}" style="width: 50%;" id="login">      
+                    <h:form>
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <h:panelGrid columns="1">
+                            <pm:field>
+                                <p:outputLabel for="Usuario"
+                                               value="#{bundle.labelUsuarios}"
+                                               style="width: 20%"
+                                               />
+                                <p:inputText id="Usuario"
+                                             label="Usuario"
+                                             value="#{usuarioLogin.usuario}"
+                                             style="width: 100%"
+                                             required="true"/>
+                            </pm:field>
+                            <pm:field>
+                                <p:outputLabel value="#{bundle.labelClave}" for="clave"
+                                               style="width: 20%"/>  
+                                <p:password id="clave" 
+                                            style="width: 100%"
+                                            value="#{usuarioLogin.clave}"/>
+                            </pm:field>
+                        </h:panelGrid>
+                        <p:commandButton
+                            value="#{bundle.btLogin}"
+                            actionListener="#{usuarioLogin.confirmar}"
+                            ajax="false"
+                            update="growl"/>   
+                        <h:panelGroup/>
+
+                    </h:form>
+                </p:panel>
+            </pm:content>
+        </center>
+    </h:body>
+
+</html>
+

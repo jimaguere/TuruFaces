@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <title><ui:insert name="titulo">Default Title</ui:insert></title>
+    </h:head>
+
+    <h:body rendered="#{!usuarioLogin.login}">
+        <center>
+            <pm:content styleClass="jqm-content">
+                <p:panel  header="#{bundle.panelLogin}" style="width: 50%;" id="login">      
+                    <h:form>
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <h:panelGrid columns="1">
+                            <pm:field>
+                                <p:outputLabel for="Usuario"
+                                               value="#{bundle.labelUsuarios}"
+                                               style="width: 20%"
+                                               />
+                                <p:inputText id="Usuario"
+                                             label="Usuario"
+                                             value="#{usuarioLogin.usuario}"
+                                             style="width: 100%"
+                                             required="true"/>
+                            </pm:field>
+                            <pm:field>
+                                <p:outputLabel value="#{bundle.labelClave}" for="clave"
+                                               style="width: 20%"/>  
+                                <p:password id="clave" 
+                                            style="width: 100%"
+                                            value="#{usuarioLogin.clave}"/>
+                            </pm:field>
+                        </h:panelGrid>
+                        <p:commandButton
+                            value="#{bundle.btLogin}"
+                            actionListener="#{usuarioLogin.confirmar}"
+                            ajax="false"
+                            update="growl"/>   
+                        <h:panelGroup/>
+
+                    </h:form>
+                </p:panel>
+            </pm:content>
+        </center>
+    </h:body>
+
+    <h:body rendered="#{usuarioLogin.login}">
+
+        <p:panelGrid style="width: 100%;">
+            <p:row>
+                <p:column colspan="2">
+                    Logo
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column id="left" style="width: 30%;height: 100%">
+                    <p:panel style="width: 100%;padding-left: 0px;
+                             padding-right: 0px;padding-bottom: 0px;padding-top: 0px" header="#{bundle.panelMenu}"
+                             >
+                        <ui:insert name="left">  
+                            <h:form>
+                                <p:panelMenu style="width:90%">
+
+                                    <c:forEach items="#{usuarioLogin.usuarioSession.usuarioRolSoftwareList}"
+                                               var="rol">
+                                        <c:forEach items="#{rol.idRol.rolSoftMenuList}" var="menu">
+                                            <c:if test="#{!menu.idMenu.menuList.isEmpty()}">
+                                                <p:submenu label="#{menu.idMenu.descripcion}">
+                                                    <c:forEach items="#{menu.idMenu.menuList}" var="hijo">
+                                                        <p:menuitem value="#{hijo.descripcion}"/>
+                                                    </c:forEach>
+                                                </p:submenu>
+                                            </c:if>
+                                        </c:forEach>
+
+                                    </c:forEach>
+                                </p:panelMenu>
+                            </h:form>
+                        </ui:insert>
+                    </p:panel>
+                </p:column>
+
+                <p:column style="width: 65%;height: 100%">
+
+                    <p:ajaxStatus 
+                        style=" position:fixed; 
+                        top: 3%; 
+                        right:15%; 
+                        width:10%;
+                        height:20%; 
+                        z-index: 21;"                        
+                        id="ajaxStatusPanel">  
+                        <f:facet name="start">  
+                            <h:graphicImage value="./resources/img/ajaxloading.gif" />                      
+                        </f:facet>          
+                        <f:facet name="complete">  
+                            <h:outputText value="&nbsp;" />  
+                        </f:facet>  
+                    </p:ajaxStatus>
+                    <div id="welcome">
+                        <h1>
+                            <ui:insert name="title" >  
+                                
+                            </ui:insert>
+                        </h1>
+                    </div>
+                    <div id="contenido">
+                        <ui:insert name="content">   
+                        </ui:insert>
+                    </div>
+
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+
+    </h:body>
+
+</html>
