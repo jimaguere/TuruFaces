@@ -7,6 +7,7 @@ package com.turu.controlador;
 
 
 import com.turu.dao.UsuarioFacade;
+import com.turu.entidad.Menu;
 import com.turu.entidad.Usuario;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -40,6 +41,7 @@ public class UsuarioLoginControlador {
     private boolean login;
     private String url;
     private Usuario usuarioSession;
+    private Menu menuSeleccion;
 
     public String getClaveActual() {
         return claveActual;
@@ -72,6 +74,7 @@ public class UsuarioLoginControlador {
     public void setUrl(String url) {
         this.url = url;
     }
+    
     
     public UsuarioFacade getUsuarioFacade() {
         return usuarioFacade;
@@ -112,8 +115,18 @@ public class UsuarioLoginControlador {
     public void setUsuarioSession(Usuario usuarioSession) {
         this.usuarioSession = usuarioSession;
     }
+
+    public Menu getMenuSeleccion() {
+        return menuSeleccion;
+    }
+
+    public void setMenuSeleccion(Menu menuSeleccion) {
+        this.menuSeleccion = menuSeleccion;
+    }
     
-    
+    public void seleccionarMenu(Menu menu){
+        this.menuSeleccion=menu;
+    }
 
     public String cerrarSession() throws IOException {
         this.login = false;

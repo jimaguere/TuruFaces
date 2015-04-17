@@ -1,9 +1,10 @@
+
 package com.turu.controlador;
 
-import com.turu.entidad.Usuario;
 import com.turu.controlador.util.JsfUtil;
 import com.turu.controlador.util.PaginationHelper;
 import com.turu.dao.UsuarioFacade;
+import com.turu.entidad.Usuario;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -25,9 +26,10 @@ public class UsuarioController implements Serializable {
     private Usuario current;
     private DataModel items = null;
     @EJB
-    private com.turu.dao.UsuarioFacade ejbFacade;
+    private UsuarioFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    boolean insertar;
 
     public UsuarioController() {
     }
@@ -61,6 +63,16 @@ public class UsuarioController implements Serializable {
         return pagination;
     }
 
+    public boolean isInsertar() {
+        return insertar;
+    }
+
+    public void setInsertar(boolean insertar) {
+        this.insertar = insertar;
+    }
+    
+    
+
     public String prepareList() {
         recreateModel();
         return "List";
@@ -73,6 +85,7 @@ public class UsuarioController implements Serializable {
     }
 
     public String prepareCreate() {
+        this.insertar=true;
         current = new Usuario();
         selectedItemIndex = -1;
         return "Create";
@@ -82,7 +95,7 @@ public class UsuarioController implements Serializable {
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
-            return prepareCreate();
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -90,16 +103,17 @@ public class UsuarioController implements Serializable {
     }
 
     public String prepareEdit() {
+        this.insertar=false;
         current = (Usuario) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return prepareList();
     }
 
     public String update() {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
-            return "View";
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;

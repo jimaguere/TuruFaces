@@ -3,104 +3,119 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
+    <ui:composition template="/Plantilla.xhtml">
+        <ui:define name="titulo">
             <h:outputText value="#{bundle.ListUsuarioTitle}"></h:outputText>
         </ui:define>
-        <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
+        <ui:define name="content">
+            <h:form styleClass="jsfcrud_list_form" id="form">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListUsuarioEmpty}" rendered="#{usuarioController.items.rowCount == 0}"/>
+
                 <h:panelGroup rendered="#{usuarioController.items.rowCount > 0}">
-                    <h:outputText value="#{usuarioController.pagination.pageFirstItem + 1}..#{usuarioController.pagination.pageLastItem + 1}/#{usuarioController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{usuarioController.previous}" value="#{bundle.Previous} #{usuarioController.pagination.pageSize}" rendered="#{usuarioController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{usuarioController.next}" value="#{bundle.Next} #{usuarioController.pagination.pageSize}" rendered="#{usuarioController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{usuarioController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUsuarioTitle_usuario}"/>
-                            </f:facet>
+
+                    <p:dataTable value="#{usuarioController.items}" var="item" 
+                                 reflow="true" rows="5" paginator="true">
+                        <p:column headerText="#{bundle.ListUsuarioTitle_usuario}">
                             <h:outputText value="#{item.usuario}"/>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUsuarioTitle_nombres}"/>
                             </f:facet>
                             <h:outputText value="#{item.nombres}"/>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUsuarioTitle_apellidos}"/>
                             </f:facet>
                             <h:outputText value="#{item.apellidos}"/>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUsuarioTitle_correoElectronico}"/>
                             </f:facet>
                             <h:outputText value="#{item.correoElectronico}"/>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUsuarioTitle_institucion}"/>
                             </f:facet>
                             <h:outputText value="#{item.institucion}"/>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUsuarioTitle_profesion}"/>
                             </f:facet>
                             <h:outputText value="#{item.profesion}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUsuarioTitle_fechaCreacion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaCreacion}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUsuarioTitle_fechaVencimiento}"/>
                             </f:facet>
                             <h:outputText value="#{item.fechaVencimiento}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUsuarioTitle_estado}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.estado}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUsuarioTitle_clave}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.clave}"/>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+
+                        <p:column headerText="t">
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{usuarioController.prepareView}" value="#{bundle.ListUsuarioViewLink}"/>
+                            <p:commandButton actionListener="#{usuarioController.prepareEdit}" icon="ui-icon-search" title="#{bundle.titleEditar}"
+                                             ajax="true" update="form:modal"
+                                             onsuccess="PF('usuariosModal').show();"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{usuarioController.prepareEdit}" value="#{bundle.ListUsuarioEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{usuarioController.destroy}" value="#{bundle.ListUsuarioDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
+                            <p:commandButton action="#{usuarioController.destroy}" icon="ui-icon-circle-close" title="#{bundle.titleEliminar}"/>
+                        </p:column>
+                    </p:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{usuarioController.prepareCreate}" value="#{bundle.ListUsuarioCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListUsuarioIndexLink}"/>
+                <p:commandButton actionListener="#{usuarioController.prepareCreate}" value="#{bundle.ListUsuarioCreateLink}" ajax="true" 
+                                 onsuccess="PF('usuariosModal').show();" update="modal"/>        
+
+                <p:dialog header="#{bundle.modalUsuarios}" widgetVar="usuariosModal" appendTo="@(body)"
+                          modal="true" style="width: 100%;height: 100%">
+                    
+                    <p:panelGrid columns="2" id="modal">
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
+                        <h:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_nombres}" for="nombres" />
+                        <h:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundle.CreateUsuarioTitle_nombres}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_nombres}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_apellidos}" for="apellidos" />
+                        <h:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{bundle.CreateUsuarioTitle_apellidos}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_apellidos}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_correoElectronico}" for="correoElectronico" />
+                        <h:inputText id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{bundle.CreateUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_correoElectronico}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_institucion}" for="institucion" />
+                        <h:inputText id="institucion" value="#{usuarioController.selected.institucion}" title="#{bundle.CreateUsuarioTitle_institucion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_institucion}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_profesion}" for="profesion" />
+                        <h:inputText id="profesion" value="#{usuarioController.selected.profesion}" title="#{bundle.CreateUsuarioTitle_profesion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_profesion}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
+                        <h:inputText id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:inputText>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaVigencia}" for="fechaVigencia" />
+                        <h:inputText id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:inputText>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_estado}" for="estado" />
+                        <h:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundle.CreateUsuarioTitle_estado}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_estado}"/>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_clave}" for="clave" />
+                        <h:inputText id="clave" value="#{usuarioController.selected.clave}" title="#{bundle.CreateUsuarioTitle_clave}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_clave}"/>
+                
+                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" update=":form" process="@this" />
+                        <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" update=":form" process="@this"/>
+                        <p:commandButton value="#{bundle.btCancelar}" onclick="PF('usuariosModal').hide();"/>
+                        <h:panelGroup/>
+                    
+                    </p:panelGrid>
+                    
+                </p:dialog>   
+
             </h:form>
         </ui:define>
     </ui:composition>
