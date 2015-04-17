@@ -59,7 +59,25 @@
         <p:panelGrid style="width: 100%;">
             <p:row>
                 <p:column colspan="2">
-                    Logo
+                    <h:form>
+                        <p:menubar>
+
+                            <c:forEach items="#{usuarioLogin.usuarioSession.usuarioRolSoftwareList}"
+                                       var="rol">
+                                <c:forEach items="#{rol.idRol.rolSoftMenuList}" var="menu">
+                                    <c:if test="#{!menu.idMenu.menuList.isEmpty()}">
+                                        <p:submenu label="#{menu.idMenu.descripcion}">
+                                            <c:forEach items="#{menu.idMenu.menuList}" var="hijo">
+                                                <p:menuitem value="#{hijo.descripcion}"/>
+                                            </c:forEach>
+                                        </p:submenu>
+                                    </c:if>
+                                </c:forEach>
+
+                            </c:forEach>
+                        </p:menubar>
+                    </h:form>
+
                 </p:column>
             </p:row>
             <p:row>
@@ -69,7 +87,7 @@
                              >
                         <ui:insert name="left">  
                             <h:form>
-                                <p:panelMenu style="width:90%">
+                                <p:panelMenu>
 
                                     <c:forEach items="#{usuarioLogin.usuarioSession.usuarioRolSoftwareList}"
                                                var="rol">
@@ -110,7 +128,7 @@
                     <div id="welcome">
                         <h1>
                             <ui:insert name="title" >  
-                                
+
                             </ui:insert>
                         </h1>
                     </div>
