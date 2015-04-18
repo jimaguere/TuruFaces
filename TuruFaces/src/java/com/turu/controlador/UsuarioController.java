@@ -97,6 +97,7 @@ public class UsuarioController implements Serializable {
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
             return prepareList();
         } catch (Exception e) {
+            System.out.println("error:"+e.toString());
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }

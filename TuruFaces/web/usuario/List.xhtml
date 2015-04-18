@@ -95,13 +95,13 @@
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_profesion}" for="profesion" />
                         <h:inputText id="profesion" value="#{usuarioController.selected.profesion}" title="#{bundle.CreateUsuarioTitle_profesion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_profesion}"/>
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
-                        <h:inputText id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
+                        <p:calendar id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:inputText>
+                        </p:calendar>
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaVigencia}" for="fechaVigencia" />
-                        <h:inputText id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
+                        <p:calendar id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:inputText>
+                        </p:calendar>
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_estado}" for="estado" />
                         <h:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundle.CreateUsuarioTitle_estado}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_estado}"/>
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_clave}" for="clave" />
