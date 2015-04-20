@@ -67,7 +67,7 @@
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <p:commandButton actionListener="#{usuarioController.prepareEdit}" icon="ui-icon-search" title="#{bundle.titleEditar}"
-                                             ajax="true" update="form:modal"
+                                             ajax="true" update="formI:modal"
                                              onsuccess="PF('usuariosModal').show();"/>
                             <h:outputText value=" "/>
                             <p:commandButton action="#{usuarioController.destroy}" icon="ui-icon-circle-close" title="#{bundle.titleEliminar}"/>
@@ -76,12 +76,15 @@
                 </h:panelGroup>
                 <br />
                 <p:commandButton actionListener="#{usuarioController.prepareCreate}" value="#{bundle.ListUsuarioCreateLink}" ajax="true" 
-                                 onsuccess="PF('usuariosModal').show();" update="modal"/>        
+                                 onsuccess="PF('usuariosModal').show();" update="formI:modal"/>         
+            </h:form>
 
-                <p:dialog header="#{bundle.modalUsuarios}" widgetVar="usuariosModal" appendTo="@(body)"
-                          modal="true" style="width: 100%;height: 100%">
-                    
+            <p:dialog header="#{bundle.modalUsuarios}" widgetVar="usuariosModal" appendTo="@(body)"
+                      modal="true" style="width: 100%;height: 100%">
+                <h:form id="formI">
+                   
                     <p:panelGrid columns="2" id="modal">
+
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
                         <h:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_nombres}" for="nombres" />
@@ -106,17 +109,16 @@
                         <h:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundle.CreateUsuarioTitle_estado}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_estado}"/>
                         <h:outputLabel value="#{bundle.CreateUsuarioLabel_clave}" for="clave" />
                         <h:inputText id="clave" value="#{usuarioController.selected.clave}" title="#{bundle.CreateUsuarioTitle_clave}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_clave}"/>
-                
-                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" update=":form" process="@this" />
-                        <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" update=":form" process="@this"/>
+
+                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();"/>
+                        <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();"/>
                         <p:commandButton value="#{bundle.btCancelar}" onclick="PF('usuariosModal').hide();"/>
                         <h:panelGroup/>
-                    
-                    </p:panelGrid>
-                    
-                </p:dialog>   
 
-            </h:form>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>  
+
         </ui:define>
     </ui:composition>
 

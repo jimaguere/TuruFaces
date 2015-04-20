@@ -93,6 +93,7 @@ public class UsuarioController implements Serializable {
 
     public String create() {
         try {
+            
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
             return prepareList();
