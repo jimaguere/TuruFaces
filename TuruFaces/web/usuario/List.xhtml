@@ -70,7 +70,7 @@
                                              ajax="true" update="formI:modal"
                                              onsuccess="PF('usuariosModal').show();"/>
                             <h:outputText value=" "/>
-                            <p:commandButton action="#{usuarioController.destroy}" icon="ui-icon-circle-close" title="#{bundle.titleEliminar}"/>
+                            <p:commandButton action="#{usuarioController.destroy}" icon="ui-icon-circle-close" title="#{bundle.titleEliminar}" ajax="true" update=":form"/>
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
@@ -82,38 +82,105 @@
             <p:dialog header="#{bundle.modalUsuarios}" widgetVar="usuariosModal" appendTo="@(body)"
                       modal="true" style="width: 100%;height: 100%">
                 <h:form id="formI">
-                   
-                    <p:panelGrid columns="2" id="modal">
 
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
-                        <h:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_nombres}" for="nombres" />
-                        <h:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundle.CreateUsuarioTitle_nombres}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_nombres}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_apellidos}" for="apellidos" />
-                        <h:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{bundle.CreateUsuarioTitle_apellidos}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_apellidos}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_correoElectronico}" for="correoElectronico" />
-                        <h:inputText id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{bundle.CreateUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_correoElectronico}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_institucion}" for="institucion" />
-                        <h:inputText id="institucion" value="#{usuarioController.selected.institucion}" title="#{bundle.CreateUsuarioTitle_institucion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_institucion}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_profesion}" for="profesion" />
-                        <h:inputText id="profesion" value="#{usuarioController.selected.profesion}" title="#{bundle.CreateUsuarioTitle_profesion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_profesion}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
-                        <p:calendar id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </p:calendar>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaVigencia}" for="fechaVigencia" />
-                        <p:calendar id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </p:calendar>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_estado}" for="estado" />
-                        <h:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundle.CreateUsuarioTitle_estado}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_estado}"/>
-                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_clave}" for="clave" />
-                        <h:inputText id="clave" value="#{usuarioController.selected.clave}" title="#{bundle.CreateUsuarioTitle_clave}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_clave}"/>
+                    <p:panelGrid  id="modal">
 
-                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();"/>
-                        <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();"/>
-                        <p:commandButton value="#{bundle.btCancelar}" onclick="PF('usuariosModal').hide();"/>
-                        <h:panelGroup/>
+                        <p:row>
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
+                                    <h:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
+                                </h:panelGrid>
+                            </p:column>
+
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_nombres}" for="nombres" />
+                                    <h:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundle.CreateUsuarioTitle_nombres}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_nombres}"/>
+                                </h:panelGrid>
+                            </p:column>
+
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_apellidos}" for="apellidos" />
+                                    <h:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{bundle.CreateUsuarioTitle_apellidos}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_apellidos}"/>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_correoElectronico}" for="correoElectronico" />
+                                    <h:inputText id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{bundle.CreateUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_correoElectronico}"/>
+                                </h:panelGrid>
+                            </p:column>
+
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_profesion}" for="profesion" />
+                                    <h:inputText id="profesion" value="#{usuarioController.selected.profesion}" title="#{bundle.CreateUsuarioTitle_profesion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_profesion}"/>
+                                </h:panelGrid>
+                            </p:column>
+
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
+                                    <p:calendar id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </p:calendar>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaVigencia}" for="fechaVigencia" />
+                                    <p:calendar id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </p:calendar>
+                                </h:panelGrid>
+                            </p:column>
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_estado}" for="estado" />
+                                    <h:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundle.CreateUsuarioTitle_estado}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_estado}"/>
+                                </h:panelGrid>
+                            </p:column>
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_clave}" for="clave" />
+                                    <h:inputText id="clave" value="#{usuarioController.selected.clave}" title="#{bundle.CreateUsuarioTitle_clave}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_clave}"/>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:pickList id="rolPickList" value="#{usuarioController.roles}"
+                                            var="rol"
+                                            itemValue="#{rol}" itemLabel="#{rol.descripcion}"
+                                            converter="rolConverter"
+                                            >
+                                    <f:facet name="sourceCaption">#{bundle.lbRolesActivos}</f:facet>
+                                    <f:facet name="targetCaption">#{bundle.lbRolesIna}</f:facet>
+                                    <p:column>
+                                        <h:outputText value="#{rol.descripcion}" />
+                                    </p:column>
+
+                                </p:pickList>
+                            </p:column>
+
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();" style="width: 100%;"/>
+                                    <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();" style="width: 100%;"/>
+                                    <p:commandButton value="#{bundle.btCancelar}" onclick="PF('usuariosModal').hide();" style="width: 100%;"/>
+                                </h:panelGrid>
+                            </p:column>
+
+                        </p:row>
 
                     </p:panelGrid>
                 </h:form>

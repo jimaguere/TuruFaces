@@ -3,11 +3,16 @@ package com.turu.controlador;
 
 import com.turu.controlador.util.JsfUtil;
 import com.turu.controlador.util.PaginationHelper;
+import com.turu.dao.RolSoftwareFacade;
 import com.turu.dao.UsuarioFacade;
+import com.turu.entidad.RolSoftware;
 import com.turu.entidad.Usuario;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -18,6 +23,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean(name = "usuarioController")
 @SessionScoped
@@ -27,9 +33,12 @@ public class UsuarioController implements Serializable {
     private DataModel items = null;
     @EJB
     private UsuarioFacade ejbFacade;
+    @EJB
+    private RolSoftwareFacade rolEjbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     boolean insertar;
+    private DualListModel<RolSoftware> roles;
 
     public UsuarioController() {
     }
@@ -70,9 +79,15 @@ public class UsuarioController implements Serializable {
     public void setInsertar(boolean insertar) {
         this.insertar = insertar;
     }
-    
-    
 
+    public DualListModel<RolSoftware> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(DualListModel<RolSoftware> roles) {
+        this.roles = roles;
+    }
+    
     public String prepareList() {
         recreateModel();
         return "List";
@@ -85,6 +100,7 @@ public class UsuarioController implements Serializable {
     }
 
     public String prepareCreate() {
+        cargarRoles();
         this.insertar=true;
         current = new Usuario();
         selectedItemIndex = -1;
@@ -239,4 +255,15 @@ public class UsuarioController implements Serializable {
             }
         }
     }
+   public void cargarRoles() {
+        List<RolSoftware> lineasSource = rolEjbFacade.findAll();
+        List<RolSoftware> lineasTarget = new ArrayList<RolSoftware>();
+        this.roles = new DualListModel<RolSoftware>(lineasSource, lineasTarget);
+    }
+   
+   @PostConstruct
+   public void init(){
+       cargarRoles();
+      // this.roles = new DualListModel<RolSoftware>(new ArrayList<RolSoftware>(), new ArrayList<RolSoftware>());
+   }
 }
