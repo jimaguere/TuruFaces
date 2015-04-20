@@ -34,5 +34,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         cq.setParameter("usuario", usuario);
         return cq.getResultList();
     }
+   
+   public void editar(Usuario usuario){
+       Query cq=getEntityManager().createNativeQuery("delete from usuario_rol_software where usuario=?");
+       cq.setParameter(1,usuario.getUsuario());
+       cq.executeUpdate();
+       getEntityManager().merge(usuario);
+   }
     
 }

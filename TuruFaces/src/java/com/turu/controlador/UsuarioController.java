@@ -1,4 +1,3 @@
-
 package com.turu.controlador;
 
 import com.turu.controlador.util.JsfUtil;
@@ -10,6 +9,7 @@ import com.turu.entidad.Usuario;
 import com.turu.entidad.UsuarioRolSoftware;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -88,7 +88,7 @@ public class UsuarioController implements Serializable {
     public void setRoles(DualListModel<RolSoftware> roles) {
         this.roles = roles;
     }
-    
+
     public String prepareList() {
         recreateModel();
         return "List";
@@ -102,22 +102,23 @@ public class UsuarioController implements Serializable {
 
     public String prepareCreate() {
         cargarRoles();
-        this.insertar=true;
+        this.insertar = true;
         current = new Usuario();
         selectedItemIndex = -1;
         return "Create";
     }
-    
-    public void setearUsuariosRolSoftware(){
-        List<UsuarioRolSoftware> rolesUsuario=new ArrayList<UsuarioRolSoftware>();
-        List<RolSoftware> rolesTarget=this.roles.getTarget();
-        for(RolSoftware rolSoftware:rolesTarget){
-           UsuarioRolSoftware usuarioRol=new UsuarioRolSoftware();
-           usuarioRol.setIdRol(rolSoftware);
-           usuarioRol.setUsuario(current);
-           rolesUsuario.add(usuarioRol);
+
+    public void setearUsuariosRolSoftware() throws Exception {
+        List<UsuarioRolSoftware> rolesUsuario = new ArrayList<UsuarioRolSoftware>();
+        List<RolSoftware> rolesTarget = this.roles.getTarget();
+        for (RolSoftware rolSoftware : rolesTarget) {
+            UsuarioRolSoftware usuarioRol = new UsuarioRolSoftware();
+            usuarioRol.setIdRol(rolSoftware);
+            usuarioRol.setUsuario(current);
+            rolesUsuario.add(usuarioRol);
         }
-        current.setUsuarioRolSoftwareList(rolesUsuario);     
+        current.setClave(md5(current.getClave()));
+        current.setUsuarioRolSoftwareList(rolesUsuario);
     }
 
     public String create() {
@@ -127,22 +128,24 @@ public class UsuarioController implements Serializable {
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
             return prepareList();
         } catch (Exception e) {
-            System.out.println("error:"+e.toString());
+            System.out.println("error:" + e.toString());
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String prepareEdit() {
-        this.insertar=false;
+        this.insertar = false;
         current = (Usuario) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        cargarRolesEditar();
         return prepareList();
     }
 
     public String update() {
         try {
-            getFacade().edit(current);
+            setearUsuariosRolSoftware();
+            getFacade().editar(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
             return prepareList();
         } catch (Exception e) {
@@ -268,15 +271,43 @@ public class UsuarioController implements Serializable {
             }
         }
     }
-   public void cargarRoles() {
+
+    public void cargarRoles() {
         List<RolSoftware> lineasSource = rolEjbFacade.findAll();
         List<RolSoftware> lineasTarget = new ArrayList<RolSoftware>();
         this.roles = new DualListModel<RolSoftware>(lineasSource, lineasTarget);
     }
-   
-   @PostConstruct
-   public void init(){
-       cargarRoles();
-      // this.roles = new DualListModel<RolSoftware>(new ArrayList<RolSoftware>(), new ArrayList<RolSoftware>());
-   }
+
+    public void cargarRolesEditar() {
+        List<RolSoftware> lineasSource = rolEjbFacade.findAll();
+        List<RolSoftware> lineasTarget = new ArrayList<RolSoftware>();
+        for (UsuarioRolSoftware usuarioRol : current.getUsuarioRolSoftwareList()) {
+            lineasTarget.add(usuarioRol.getIdRol());
+        }
+        lineasSource.removeAll(lineasTarget);
+        this.roles = new DualListModel<RolSoftware>(lineasSource, lineasTarget);
+    }
+
+    @PostConstruct
+    public void init() {
+        cargarRoles();
+        // this.roles = new DualListModel<RolSoftware>(new ArrayList<RolSoftware>(), new ArrayList<RolSoftware>());
+    }
+
+    private static String md5(String clear) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] b = md.digest(clear.getBytes());
+        int size = b.length;
+        StringBuffer h = new StringBuffer(size);
+        for (int i = 0; i < size; i++) {
+            int u = b[i] & 255;
+            if (u < 16) {
+                h.append("0" + Integer.toHexString(u));
+            } else {
+                h.append(Integer.toHexString(u));
+            }
+        }
+
+        return h.toString();
+    }
 }
