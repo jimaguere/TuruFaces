@@ -7,6 +7,7 @@ import com.turu.dao.RolSoftwareFacade;
 import com.turu.dao.UsuarioFacade;
 import com.turu.entidad.RolSoftware;
 import com.turu.entidad.Usuario;
+import com.turu.entidad.UsuarioRolSoftware;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -106,10 +107,22 @@ public class UsuarioController implements Serializable {
         selectedItemIndex = -1;
         return "Create";
     }
+    
+    public void setearUsuariosRolSoftware(){
+        List<UsuarioRolSoftware> rolesUsuario=new ArrayList<UsuarioRolSoftware>();
+        List<RolSoftware> rolesTarget=this.roles.getTarget();
+        for(RolSoftware rolSoftware:rolesTarget){
+           UsuarioRolSoftware usuarioRol=new UsuarioRolSoftware();
+           usuarioRol.setIdRol(rolSoftware);
+           usuarioRol.setUsuario(current);
+           rolesUsuario.add(usuarioRol);
+        }
+        current.setUsuarioRolSoftwareList(rolesUsuario);     
+    }
 
     public String create() {
         try {
-            
+            setearUsuariosRolSoftware();
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
             return prepareList();

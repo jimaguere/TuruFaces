@@ -86,12 +86,15 @@
                     <p:panelGrid  id="modal">
 
                         <p:row>
-                            <p:column>
+                            <p:column colspan="3">
                                 <h:panelGrid columns="1">
                                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
                                     <h:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
                                 </h:panelGrid>
                             </p:column>
+                        </p:row>
+
+                        <p:row>
 
                             <p:column>
                                 <h:panelGrid columns="1">
@@ -104,6 +107,14 @@
                                 <h:panelGrid columns="1">
                                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_apellidos}" for="apellidos" />
                                     <h:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{bundle.CreateUsuarioTitle_apellidos}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_apellidos}"/>
+                                </h:panelGrid>
+                            </p:column>
+
+                            <p:column>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_institucion}" for="institucion" />
+                                    <p:inputText id="institucion" value="#{usuarioController.selected.institucion}" title="#{bundle.CreateUsuarioTitle_institucion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_institucion}"/>
+
                                 </h:panelGrid>
                             </p:column>
                         </p:row>
@@ -157,29 +168,35 @@
                         </p:row>
 
                         <p:row>
-                            <p:column colspan="2">
-                                <p:pickList id="rolPickList" value="#{usuarioController.roles}"
-                                            var="rol"
-                                            itemValue="#{rol}" itemLabel="#{rol.descripcion}"
-                                            converter="rolConverter"
-                                            >
-                                    <f:facet name="sourceCaption">#{bundle.lbRolesActivos}</f:facet>
-                                    <f:facet name="targetCaption">#{bundle.lbRolesIna}</f:facet>
-                                    <p:column>
-                                        <h:outputText value="#{rol.descripcion}" />
-                                    </p:column>
+                            <p:column colspan="3">
+                                <center>
+                                    <p:pickList id="rolPickList" value="#{usuarioController.roles}"
+                                                var="rol"
+                                                itemValue="#{rol}" itemLabel="#{rol.descripcion}"
+                                                converter="rolConverter"
+                                                >
+                                        <f:facet name="sourceCaption">#{bundle.lbRolesIna}</f:facet>
+                                        <f:facet name="targetCaption">#{bundle.lbRolesActivos}</f:facet>
+                                        <p:column>
+                                            <h:outputText value="#{rol.descripcion}" />
+                                        </p:column>
 
-                                </p:pickList>
+                                    </p:pickList>
+                                </center>
                             </p:column>
 
-                            <p:column>
-                                <h:panelGrid columns="1">
-                                    <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();" style="width: 100%;"/>
-                                    <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();" style="width: 100%;"/>
-                                    <p:commandButton value="#{bundle.btCancelar}" onclick="PF('usuariosModal').hide();" style="width: 100%;"/>
-                                </h:panelGrid>
-                            </p:column>
+                        </p:row>
 
+                        <p:row>
+                            <p:column colspan="3">
+                                <center>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" rendered="#{usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();" style="width: 100%;"/>
+                                        <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}" rendered="#{!usuarioController.insertar}" ajax="true" process="@form" update=":form" oncomplete="PF('usuariosModal').hide();" style="width: 100%;"/>
+                                        <p:commandButton value="#{bundle.btCancelar}" onclick="PF('usuariosModal').hide();" style="width: 100%;"/>
+                                    </h:panelGrid>
+                                </center>
+                            </p:column>
                         </p:row>
 
                     </p:panelGrid>
