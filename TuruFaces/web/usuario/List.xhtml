@@ -136,8 +136,9 @@
                             <p:column>
                                 <h:panelGrid columns="1">
                                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
-                                    <p:calendar id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    <p:calendar id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}"
+                                                pattern="dd/MM/yyyy">
+                                       
                                     </p:calendar>
                                 </h:panelGrid>
                             </p:column>
@@ -147,8 +148,8 @@
                             <p:column>
                                 <h:panelGrid columns="1">
                                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaVigencia}" for="fechaVigencia" />
-                                    <p:calendar id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    <p:calendar id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}"  pattern="dd/MM/yyyy">
+                                     
                                     </p:calendar>
                                 </h:panelGrid>
                             </p:column>
