@@ -42,7 +42,7 @@
                                              ajax="true" update="formI:modal"
                                              onsuccess="PF('rolModal').show();"/>
                             <h:outputText value=" "/>
-                            <p:commandButton action="#{rolSoftwareController.destroy}" icon="ui-icon-circle-close" title="#{bundle.ListRolSoftwareDestroyLink}"/>
+                            <p:commandButton action="#{rolSoftwareController.destroy}" icon="ui-icon-circle-close" title="#{bundle.ListRolSoftwareDestroyLink}" ajax="true" update=":form"/>
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>

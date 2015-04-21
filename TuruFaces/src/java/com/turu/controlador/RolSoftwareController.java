@@ -149,9 +149,9 @@ public class RolSoftwareController implements Serializable {
     public String update() {
         try {
             setearPermisos();
-            getFacade().edit(current);
+            getFacade().editarRolSoftware(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolSoftwareUpdated"));
-            return "View";
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
