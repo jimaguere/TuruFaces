@@ -3,10 +3,16 @@ package com.turu.controlador;
 import com.turu.entidad.RolSoftware;
 import com.turu.controlador.util.JsfUtil;
 import com.turu.controlador.util.PaginationHelper;
+import com.turu.dao.MenuFacade;
 import com.turu.dao.RolSoftwareFacade;
+import com.turu.entidad.Menu;
+import com.turu.entidad.RolSoftMenu;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -17,6 +23,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean(name = "rolSoftwareController")
 @SessionScoped
@@ -26,8 +33,12 @@ public class RolSoftwareController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.turu.dao.RolSoftwareFacade ejbFacade;
+    @EJB
+    private MenuFacade menuEjbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private boolean insertar;
+    private DualListModel<Menu> menus;
 
     public RolSoftwareController() {
     }
@@ -40,8 +51,32 @@ public class RolSoftwareController implements Serializable {
         return current;
     }
 
+    public boolean isInsertar() {
+        return insertar;
+    }
+
+    public void setInsertar(boolean insertar) {
+        this.insertar = insertar;
+    }
+
     private RolSoftwareFacade getFacade() {
         return ejbFacade;
+    }
+
+    public MenuFacade getMenuEjbFacade() {
+        return menuEjbFacade;
+    }
+
+    public void setMenuEjbFacade(MenuFacade menuEjbFacade) {
+        this.menuEjbFacade = menuEjbFacade;
+    }
+
+    public DualListModel<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(DualListModel<Menu> menus) {
+        this.menus = menus;
     }
 
     public PaginationHelper getPagination() {
@@ -73,16 +108,30 @@ public class RolSoftwareController implements Serializable {
     }
 
     public String prepareCreate() {
+        cargarPermisos();
+        insertar=true;
         current = new RolSoftware();
         selectedItemIndex = -1;
         return "Create";
     }
+    
+    public void setearPermisos(){
+        List<RolSoftMenu> listaRolMenu=new ArrayList<RolSoftMenu>();
+        for(Menu menu:menus.getTarget()){
+            RolSoftMenu rolMenu=new RolSoftMenu();
+            rolMenu.setIdMenu(menu);
+            rolMenu.setIdRol(current);
+            listaRolMenu.add(rolMenu);
+        }
+        current.setRolSoftMenuList(listaRolMenu);
+    }
 
     public String create() {
         try {
+            setearPermisos();
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolSoftwareCreated"));
-            return prepareCreate();
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -90,13 +139,16 @@ public class RolSoftwareController implements Serializable {
     }
 
     public String prepareEdit() {
+        insertar=false;
         current = (RolSoftware) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        cargarPermisosEditar();
         return "Edit";
     }
 
     public String update() {
         try {
+            setearPermisos();
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RolSoftwareUpdated"));
             return "View";
@@ -222,5 +274,38 @@ public class RolSoftwareController implements Serializable {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + RolSoftware.class.getName());
             }
         }
+    }
+    
+    public void cargarPermisos(){
+        List<Menu> source=this.menuEjbFacade.findAll();
+        List<Menu> sourceAux=new ArrayList<Menu>();
+        List<Menu> target=new ArrayList<Menu>();
+        for(Menu menu1:source){
+            if(menu1.getParentIdMenu()==null){
+                sourceAux.add(menu1);
+            }
+        }
+        this.menus=new DualListModel<Menu>(sourceAux, target);    
+    }
+    
+    public void cargarPermisosEditar(){
+        List<Menu> source=getMenuEjbFacade().findAll();
+        List<Menu> sourceAux=new ArrayList<Menu>();
+        List<Menu> target=new ArrayList<Menu>();
+        for(Menu menu:source){
+            if(menu.getParentIdMenu()==null){
+                sourceAux.add(menu);
+            }
+        }
+        for(RolSoftMenu menuRol:current.getRolSoftMenuList()){
+            target.add(menuRol.getIdMenu());
+        }
+        sourceAux.removeAll(target);
+        this.menus=new DualListModel<Menu>(sourceAux, target);   
+    }
+    
+    @PostConstruct
+    public void inicar(){
+        cargarPermisos();
     }
 }

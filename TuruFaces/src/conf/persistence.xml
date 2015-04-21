@@ -3,6 +3,7 @@
   <persistence-unit name="TuruFacesPU" transaction-type="JTA">
     <jta-data-source>jdbc/turu</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <validation-mode>NONE</validation-mode>
     <properties/>
   </persistence-unit>
 </persistence>
