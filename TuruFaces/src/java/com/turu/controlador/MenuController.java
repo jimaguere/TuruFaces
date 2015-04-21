@@ -6,6 +6,7 @@ import com.turu.controlador.util.PaginationHelper;
 import com.turu.dao.MenuFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -26,8 +27,17 @@ public class MenuController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.turu.dao.MenuFacade ejbFacade;
+
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    boolean insertar;
+
+    public boolean isInsertar() {
+        return insertar;
+    }
+    public void setInsertar(boolean insertar) {
+        this.insertar = insertar;
+    }
 
     public MenuController() {
     }
@@ -73,10 +83,18 @@ public class MenuController implements Serializable {
     }
 
     public String prepareCreate() {
+        //  cargarMenu();
+        this.insertar=true;
         current = new Menu();
         selectedItemIndex = -1;
         return "Create";
     }
+    /*public void cargarMenu() {
+        List<Menu> lineasSource = 
+        List<RolSoftware> lineasSource = rolEjbFacade.findAll();
+        List<RolSoftware> lineasTarget = new ArrayList<RolSoftware>();
+        this.roles = new DualListModel<RolSoftware>(lineasSource, lineasTarget);
+    }*/
 
     public String create() {
         try {
