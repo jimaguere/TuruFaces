@@ -58,7 +58,7 @@
                                 <h:outputText value="#{bundle.ListUsuarioTitle_fechaVencimiento}"/>
                             </f:facet>
                             <h:outputText value="#{item.fechaVencimiento}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
 
@@ -66,7 +66,7 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <p:commandButton actionListener="#{usuarioController.prepareEdit}" icon="ui-icon-search" title="#{bundle.titleEditar}"
+                            <p:commandButton actionListener="#{usuarioController.prepareEdit}" icon="ui-icon-pencil" title="#{bundle.titleEditar}"
                                              ajax="true" update="formI:modal"
                                              onsuccess="PF('usuariosModal').show();"/>
                             <h:outputText value=" "/>
@@ -138,7 +138,7 @@
                                 <h:panelGrid columns="1">
                                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
                                     <p:calendar id="fechaCreacion" value="#{usuarioController.selected.fechaCreacion}" title="#{bundle.CreateUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaCreacion}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </p:calendar>
                                 </h:panelGrid>
                             </p:column>
@@ -149,7 +149,7 @@
                                 <h:panelGrid columns="1">
                                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_fechaVigencia}" for="fechaVigencia" />
                                     <p:calendar id="fechaVigencia" value="#{usuarioController.selected.fechaVencimiento}" title="#{bundle.CreateUsuarioTitle_fechaVigencia}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_fechaVigencia}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </p:calendar>
                                 </h:panelGrid>
                             </p:column>
