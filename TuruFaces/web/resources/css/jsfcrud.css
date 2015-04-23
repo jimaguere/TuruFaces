@@ -80,3 +80,18 @@ tr.jsfcrud_even_row {
     left: 50%;
     top: 50%;
 }
+
+.fondo{
+    background: url(../img/frojo.png)1% 1% repeat;
+}
+
+.blanco{
+    color:white;
+    
+}
+
+#login{
+   margin-top: 10%;
+   width: 100%;
+   height: 100%;  
+}
