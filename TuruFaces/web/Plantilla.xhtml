@@ -56,12 +56,13 @@
 
     <h:body rendered="#{usuarioLogin.login}">
 
-        <p:panelGrid style="width: 100%;">
+        <p:panelGrid style="width: 100%;" id="bodyTop">
 
             <p:row>
                 <p:column colspan="2">
-                    <h:form>
-                        <p:menubar>
+                    <h:form>                        
+                        <p:menubar id="menubar1">
+                            
 
                             <c:forEach items="#{usuarioLogin.usuarioSession.usuarioRolSoftwareList}"
                                        var="rol">
