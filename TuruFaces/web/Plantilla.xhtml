@@ -10,7 +10,6 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <title><ui:insert name="titulo">Default Title</ui:insert></title>
     </h:head>
@@ -56,35 +55,18 @@
 
     <h:body rendered="#{usuarioLogin.login}">
 
-        <p:panelGrid style="width: 100%;" id="bodyTop">
+        <p:panelGrid style="width: 100%;height: 100%" id="bodyTop" styleClass="ui-panelgrid">
 
-            <p:row>
+            <p:row styleClass="fondo" >
                 <p:column colspan="2">
-                    <h:form>                        
-                        <p:menubar id="menubar1">
-                            
-
-                            <c:forEach items="#{usuarioLogin.usuarioSession.usuarioRolSoftwareList}"
-                                       var="rol">
-                                <c:forEach items="#{rol.idRol.rolSoftMenuList}" var="menu">
-
-                                    <c:if test="#{!menu.idMenu.menuList.isEmpty()}">
-                                        <c:if test="#{menu.idMenu.parentIdMenu==null}">
-                                            <p:submenu label="#{menu.idMenu.descripcion}">
-                                                <c:forEach items="#{menu.idMenu.menuList}" var="hijo">
-                                                    <p:menuitem value="#{hijo.descripcion}"
-                                                                actionListener="#{usuarioLogin.seleccionarMenu(hijo)}"
-                                                                ajax="true"
-                                                                update="form1:submenu"/>
-                                                </c:forEach>
-                                            </p:submenu>
-                                        </c:if>
-                                    </c:if>
-                                </c:forEach>
-
-                            </c:forEach>
-                        </p:menubar>
-                    </h:form>
+                    <h:panelGrid columns="2">
+                        <center>
+                        <img src="../resources/img/logo.png" style="width: 20%"/>
+                        </center>
+                        <h:outputText value="#{bundle.textoPrueba}" class="blanco"/>
+                    </h:panelGrid>
+              
+                    
                 </p:column>
             </p:row>
             <p:row>
@@ -141,6 +123,35 @@
                         </ui:insert>
                     </div>
 
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                     <h:form>                        
+                        <p:menubar id="menubar1">
+                            
+
+                            <c:forEach items="#{usuarioLogin.usuarioSession.usuarioRolSoftwareList}"
+                                       var="rol">
+                                <c:forEach items="#{rol.idRol.rolSoftMenuList}" var="menu">
+
+                                    <c:if test="#{!menu.idMenu.menuList.isEmpty()}">
+                                        <c:if test="#{menu.idMenu.parentIdMenu==null}">
+                                            <p:submenu label="#{menu.idMenu.descripcion}">
+                                                <c:forEach items="#{menu.idMenu.menuList}" var="hijo">
+                                                    <p:menuitem value="#{hijo.descripcion}"
+                                                                actionListener="#{usuarioLogin.seleccionarMenu(hijo)}"
+                                                                ajax="true"
+                                                                update="form1:submenu"/>
+                                                </c:forEach>
+                                            </p:submenu>
+                                        </c:if>
+                                    </c:if>
+                                </c:forEach>
+
+                            </c:forEach>
+                        </p:menubar>
+                    </h:form>
                 </p:column>
             </p:row>
         </p:panelGrid>

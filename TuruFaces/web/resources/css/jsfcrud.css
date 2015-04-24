@@ -95,3 +95,8 @@ tr.jsfcrud_even_row {
    width: 100%;
    height: 100%;  
 }
+
+
+.ui-panelgrid tr, .ui-panelgrid td{
+    border: 0;
+}
