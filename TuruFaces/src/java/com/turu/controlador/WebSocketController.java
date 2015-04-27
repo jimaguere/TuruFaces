@@ -37,10 +37,15 @@ public class WebSocketController implements Serializable{
         this.count = count;
     }
     
+    @PostConstruct
+    public void iniciarPagina(){
+        count=usuarioFacade.count(); 
+    }
+    
   //  @PostConstruct
     public void increment() {
-       // count=usuarioFacade.count();  
-        count++;
+        count=usuarioFacade.count();  
+        //count++;
         System.out.println(count+" count");
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
       
