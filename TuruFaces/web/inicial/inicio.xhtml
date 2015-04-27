@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <body>
 
@@ -10,14 +11,26 @@
             <ui:define name="titulo">
                 #{bundle.titleInicio}
             </ui:define>
-            
+
             <ui:define name="title">
-                
+
             </ui:define>
-            
+
             <ui:define name="content">
                 <p:panel header="#{bundle.bienvenidoPagina}">
-                    <p:graphicImage value="/resources/img/institucion.jpg" style="width: 100%;height: 100%"/>
+                    <h:form id="form">
+                        <h:outputText id="out" value="Usuarios del Sistema #{webSocketController.count}" styleClass="ui-widget display" />                  
+                        <p:commandButton value="Click" actionListener="#{webSocketController.increment}" />
+                    </h:form>
+
+                    <p:socket onMessage="handleMessage" channel="/counter" />
+
+                    <script type="text/javascript">
+                        function handleMessage(data) {
+                            $('.display').html(data);
+                        }
+                    </script>
+                    
                 </p:panel>
             </ui:define>
 
